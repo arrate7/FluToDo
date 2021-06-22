@@ -2,12 +2,14 @@
   "name": "FluToDo",
   "short_name": "FluToDo",
   "start_url": "./",
-  "display": "standalone",
+  "display": "fullscreen",
   "background_color": "#ffffff",
-  "theme_color": "#03173d",
+  "theme_color": "#097fed",
+  //"orientation": "landscape",
+  "lang": "Spanish; Castilian",
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "img/fluendo.png",
       "type": "image/png",
       "sizes": "512x512"
     }

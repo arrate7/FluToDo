@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31313.79
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FluToDo", "FluToDo\FluToDo.csproj", "{B9DFB4B3-A424-4689-96D7-E407C9F7D901}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FluToDo", "FluToDo\FluToDo.csproj", "{B9DFB4B3-A424-4689-96D7-E407C9F7D901}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToDo.Core", "..\..\..\Downloads\ToDoAPI-master\ToDo.Core\ToDo.Core.csproj", "{042BBC29-C2AE-4DE9-96D1-EF01281D5C70}"
 EndProject

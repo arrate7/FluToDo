@@ -1,7 +1,23 @@
 ﻿@page "/"
+@inject FluToDo.Services.ITodoService TodoService
+  
 
-<h1>Hello, world!</h1>
+<ul class="todo-items">
+      <!-- dummy item -->
+      <!-- <li class="item" data-key="1594003133171">
+        <input class="checkbox" type="checkbox">
+        Go to Gym
+        <button class="delete-button">X</button>
+      </li> -->
+ </ul>
 
-Welcome to your new app.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code{
+    private List<TodoItem> Todos = new List<TodoItem>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Todos = await TodoService.GetTodoItems();
+    }
+}
