@@ -18,7 +18,7 @@ namespace FluToDo
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44388/api/todo") });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/todo") });
             builder.Services.AddScoped<ITodoService, TodoService>();
             await builder.Build().RunAsync();
         }
