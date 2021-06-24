@@ -1,15 +1,20 @@
 ﻿@page "/"
 @inject FluToDo.Services.ITodoService TodoService
-  
+
 
 <ul class="todo-items">
-      <!-- dummy item -->
-      <!-- <li class="item" data-key="1594003133171">
-        <input class="checkbox" type="checkbox">
-        Go to Gym
-        <button class="delete-button">X</button>
-      </li> -->
- </ul>
+    @foreach (var todo in Todos)
+    {
+        <li class="row">
+            <MatCheckbox @bind-Value="@todo.IsComplete" Class="col-2"></MatCheckbox>
+            @*<input type="checkbox" checked="@todo.IsComplete">*@
+            <label class="col-6">@todo.Name</label>
+            <button class="edit col-2">Edit</button>
+            <button class="delete col-2">Delete</button>
+        </li>
+        <MatDivider></MatDivider>
+    }
+</ul>
 
 
 
