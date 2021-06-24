@@ -180,4 +180,15 @@ app {
         /* Never collapse the sidebar for wide screens */
         display: block;
     }
+
+    .todoHeader{
+        font-size: 50px;
+    }
 }
+
+    .themeColor1 {
+        color: rgba(0,129,255,1) !important;
+    }
+    .deleteColor {
+        color: crimson !important;
+    }

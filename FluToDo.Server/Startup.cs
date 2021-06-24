@@ -19,6 +19,7 @@ namespace FluToDo.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            //TODO: Change this if needed
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",

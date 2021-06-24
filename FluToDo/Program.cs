@@ -1,4 +1,5 @@
 using FluToDo.Services;
+using MatBlazor;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +18,9 @@ namespace FluToDo
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
-
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:5001/api/todo") });
+            //TODO: change this if needed
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:44332/api/todo") });
+            builder.Services.AddMatBlazor();
             builder.Services.AddScoped<ITodoService, TodoService>();
             await builder.Build().RunAsync();
         }
