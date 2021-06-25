@@ -21,5 +21,9 @@ namespace FluToDo.Services
         {
             return await _http.GetFromJsonAsync<List<TodoItem>>("");
         }
+        public async Task AddTodoItem(TodoItem todo)
+        {
+             await _http.PostAsJsonAsync<TodoItem>("",todo);
+        }
     }
 }

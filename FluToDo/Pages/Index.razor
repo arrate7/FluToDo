@@ -2,15 +2,15 @@
 @inject FluToDo.Services.ITodoService TodoService
 
 
-<h1 class="themeColor1 todoHeader text-center" >TODO List</h1>
+<h1 class="themeColor1 todoHeader text-center">TODO List</h1>
 <MatList>
     @foreach (var todo in Todos)
     {
         <MatListItem Class="row">
-            <MatCheckbox @bind-Value="@todo.IsComplete" Class="col-2"></MatCheckbox>
+            <MatCheckbox @bind-Value=@todo.IsComplete Class="col-2"></MatCheckbox>
             @if (todo.IsComplete)
             {
-                <del class="col-6">@todo.Name</del> 
+                <del class="col-6">@todo.Name</del>
             }
             else
             {
@@ -23,12 +23,40 @@
         <MatDivider></MatDivider>
     }
 </MatList>
+<div class="fixed-button">
+    <button class="round-button" @onclick=NewTodoClicked>+</button>
+</div>
+<MatDialog @bind-IsOpen="@dialogIsOpen">
+    <MatDialogTitle>Add new Todo</MatDialogTitle>
+    <MatDialogContent>
+        <p>Name</p>   
+        <MatTextField @bind-Value=@todo.Name></MatTextField>
+    </MatDialogContent>
+    <MatDialogActions>
+        <MatButton OnClick=@(e => { dialogIsOpen = false; })>No Thanks</MatButton>
+        <MatButton OnClick=@ConfirmedNewTodoClicked>OK</MatButton>
+    </MatDialogActions>
+</MatDialog>
 
 @code{
+
     private List<TodoItem> Todos = new List<TodoItem>();
+    private bool dialogIsOpen;
+    private TodoItem todo = new TodoItem();
 
     protected override async Task OnInitializedAsync()
     {
         Todos = await TodoService.GetTodoItems();
+    }
+
+    void NewTodoClicked()
+    {
+        dialogIsOpen = true;
+    }
+    async void ConfirmedNewTodoClicked()
+    {
+        Todos.Add(todo);
+        await TodoService.AddTodoItem(todo);
+        todo = new TodoItem();
     }
 }

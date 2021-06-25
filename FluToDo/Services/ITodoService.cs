@@ -9,5 +9,6 @@ namespace FluToDo.Services
     interface ITodoService
     {
         Task<List<TodoItem>> GetTodoItems();
+        Task AddTodoItem(TodoItem todo);
     }
 }

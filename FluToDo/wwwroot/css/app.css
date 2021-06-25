@@ -192,3 +192,26 @@ app {
     .deleteColor {
         color: crimson !important;
     }
+.fixed-button {
+    position: fixed;
+    bottom: 55PX;
+    right: 50PX;
+}
+.round-button {
+    display: block;
+    width: 80px;
+    height: 80px;
+    line-height: 80px;
+    border-radius: 50%;
+    color: white !important;
+    text-align: center;
+    text-decoration: none;
+    background: rgba(0,129,255,1);
+    font-size: 80px;
+    font-weight: bold;
+    border:none;
+}
+
+    .round-button:hover {
+        background: #018786;
+    }
