@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -21,9 +22,14 @@ namespace FluToDo.Services
         {
             return await _http.GetFromJsonAsync<List<TodoItem>>("");
         }
-        public async Task AddTodoItem(TodoItem todo)
+        public async Task<TodoItem> AddTodoItem(TodoItem todo)
         {
-             await _http.PostAsJsonAsync<TodoItem>("",todo);
+            var responseMessage = await  _http.PostAsJsonAsync("", todo);
+            return await responseMessage.Content.ReadFromJsonAsync<TodoItem>();
+        }
+        public async Task UpdateTodoItem(TodoItem todo)
+        {
+                var responseMessage  = await _http.PutAsJsonAsync($"/api/todo/{todo.Key}", todo);
         }
     }
 }

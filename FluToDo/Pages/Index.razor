@@ -7,7 +7,7 @@
     @foreach (var todo in Todos)
     {
         <MatListItem Class="row">
-            <MatCheckbox @bind-Value=@todo.IsComplete Class="col-2"></MatCheckbox>
+            <MatCheckbox @bind-Value=@todo.IsComplete Class="col-2" @onclick=@((e) => UpdateTodoStatus(todo))></MatCheckbox>
             @if (todo.IsComplete)
             {
                 <del class="col-6">@todo.Name</del>
@@ -17,7 +17,7 @@
                 <label class="col-6">@todo.Name</label>
 
             }
-            <MatButton Icon="edit" Class="col-2 themeColor1"></MatButton>
+            <MatButton Icon="edit" Class="col-2 themeColor1" OnClick=@((e) => EditTodoClicked(todo))></MatButton>
             <MatButton Icon="delete" Class="col-2 deleteColor"></MatButton>
         </MatListItem>
         <MatDivider></MatDivider>
@@ -29,34 +29,55 @@
 <MatDialog @bind-IsOpen="@dialogIsOpen">
     <MatDialogTitle>Add new Todo</MatDialogTitle>
     <MatDialogContent>
-        <p>Name</p>   
+        <p>Name</p>
         <MatTextField @bind-Value=@todo.Name></MatTextField>
     </MatDialogContent>
     <MatDialogActions>
         <MatButton OnClick=@(e => { dialogIsOpen = false; })>No Thanks</MatButton>
-        <MatButton OnClick=@ConfirmedNewTodoClicked>OK</MatButton>
+        @if (isUpdate)
+        {
+            <MatButton OnClick=@UpdateTodo>OK</MatButton>
+        }
+        else
+        {
+            <MatButton OnClick=@ConfirmedNewTodo>OK</MatButton>
+        }
     </MatDialogActions>
 </MatDialog>
 
 @code{
 
     private List<TodoItem> Todos = new List<TodoItem>();
-    private bool dialogIsOpen;
+    private bool dialogIsOpen, isUpdate;
     private TodoItem todo = new TodoItem();
 
     protected override async Task OnInitializedAsync()
     {
         Todos = await TodoService.GetTodoItems();
     }
-
     void NewTodoClicked()
     {
         dialogIsOpen = true;
+        isUpdate = false;
     }
-    async void ConfirmedNewTodoClicked()
+    async void ConfirmedNewTodo()
     {
+        todo = await TodoService.AddTodoItem(todo);
         Todos.Add(todo);
-        await TodoService.AddTodoItem(todo);
-        todo = new TodoItem();
+    }
+    async void UpdateTodoStatus(TodoItem todo)
+    {
+        todo.IsComplete = todo.IsComplete ? false : true;
+        await TodoService.UpdateTodoItem(todo);
+    }
+    void EditTodoClicked(TodoItem item)
+    {
+        todo = item;
+        dialogIsOpen = true;
+        isUpdate = true;
+    }
+    async void UpdateTodo()
+    {
+        await TodoService.UpdateTodoItem(todo);
     }
 }
