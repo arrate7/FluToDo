@@ -29,7 +29,11 @@ namespace FluToDo.Services
         }
         public async Task UpdateTodoItem(TodoItem todo)
         {
-                var responseMessage  = await _http.PutAsJsonAsync($"/api/todo/{todo.Key}", todo);
+                await _http.PutAsJsonAsync($"/api/todo/{todo.Key}", todo);
+        }
+        public async Task DeleteTodoItem(string key)
+        {
+            await _http.DeleteAsync($"/api/todo/{key}");
         }
     }
 }

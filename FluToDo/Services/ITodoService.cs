@@ -11,5 +11,6 @@ namespace FluToDo.Services
         Task<List<TodoItem>> GetTodoItems();
         Task<TodoItem> AddTodoItem(TodoItem todo);
         Task UpdateTodoItem(TodoItem todo);
+        Task DeleteTodoItem(string key);
     }
 }

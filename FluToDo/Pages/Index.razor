@@ -18,7 +18,7 @@
 
             }
             <MatButton Icon="edit" Class="col-2 themeColor1" OnClick=@((e) => EditTodoClicked(todo))></MatButton>
-            <MatButton Icon="delete" Class="col-2 deleteColor"></MatButton>
+            <MatButton Icon="delete" Class="col-2 deleteColor" OnClick=@((e) => DeleteTodoClicked(todo) )></MatButton>
         </MatListItem>
         <MatDivider></MatDivider>
     }
@@ -27,28 +27,49 @@
     <button class="round-button" @onclick=NewTodoClicked>+</button>
 </div>
 <MatDialog @bind-IsOpen="@dialogIsOpen">
-    <MatDialogTitle>Add new Todo</MatDialogTitle>
-    <MatDialogContent>
-        <p>Name</p>
-        <MatTextField @bind-Value=@todo.Name></MatTextField>
-    </MatDialogContent>
-    <MatDialogActions>
-        <MatButton OnClick=@(e => { dialogIsOpen = false; })>No Thanks</MatButton>
+    @if (isDelete)
+    {
+        <MatDialogTitle>Delete Todo</MatDialogTitle>
+        <MatDialogContent>
+            <p>Are you sure?</p>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick=@(e => { dialogIsOpen = false; })>No Thanks</MatButton>
+            <MatButton OnClick=@(e=> { DeleteTodoConfirmed(); dialogIsOpen = false; })>Yes</MatButton>
+        </MatDialogActions>
+    }
+    else
+    {
         @if (isUpdate)
         {
-            <MatButton OnClick=@UpdateTodo>OK</MatButton>
+            <MatDialogTitle>Edit Todo</MatDialogTitle>
         }
         else
         {
-            <MatButton OnClick=@ConfirmedNewTodo>OK</MatButton>
+            <MatDialogTitle>Add new Todo</MatDialogTitle>
         }
-    </MatDialogActions>
+        <MatDialogContent>
+            <p>Name</p>
+            <MatTextField @bind-Value=@todo.Name></MatTextField>
+        </MatDialogContent>
+        <MatDialogActions>
+            <MatButton OnClick=@(e => { dialogIsOpen = false; })>No Thanks</MatButton>
+            @if (isUpdate)
+            {
+                <MatButton OnClick=@(e=> { UpdateTodo(); dialogIsOpen = false; })>OK</MatButton>
+            }
+            else
+            {
+                <MatButton OnClick=@(e=> { ConfirmedNewTodo(); dialogIsOpen = false; })>OK</MatButton>
+            }
+        </MatDialogActions>
+    }
 </MatDialog>
 
 @code{
 
     private List<TodoItem> Todos = new List<TodoItem>();
-    private bool dialogIsOpen, isUpdate;
+    private bool dialogIsOpen, isUpdate, isDelete;
     private TodoItem todo = new TodoItem();
 
     protected override async Task OnInitializedAsync()
@@ -57,8 +78,9 @@
     }
     void NewTodoClicked()
     {
+        todo = new TodoItem();
         dialogIsOpen = true;
-        isUpdate = false;
+        isUpdate = isDelete = false;
     }
     async void ConfirmedNewTodo()
     {
@@ -75,9 +97,21 @@
         todo = item;
         dialogIsOpen = true;
         isUpdate = true;
+        isDelete = false;
     }
     async void UpdateTodo()
     {
         await TodoService.UpdateTodoItem(todo);
+    }
+    void DeleteTodoClicked(TodoItem item)
+    {
+        todo = item;
+        dialogIsOpen = true;
+        isDelete = true;
+    }
+    async void DeleteTodoConfirmed()
+    {
+        await TodoService.DeleteTodoItem(todo.Key);
+        Todos.Remove(todo);
     }
 }
