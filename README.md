@@ -1,2 +1,2 @@
 # FluToDo
-New app that helps users keep a balanced life.
+A web application that helps users keep a balanced life. Developed with blazor web assembly.
